@@ -3,8 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import { Resend } from "resend";
-import path from "path";
-import fs from "fs/promises";
 import { ChatGroq } from "@langchain/groq";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { createStuffDocumentsChain } from "langchain/chains/combine_documents";
@@ -21,8 +19,6 @@ const GROQ_API_KEY = process.env.GROQ_KEY;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 
 const resend = new Resend(RESEND_API_KEY);
-
-
 
 
 app.post("/send", async (req, res) => {
@@ -44,6 +40,7 @@ app.post("/send", async (req, res) => {
 });
 
 
+
 app.post("/chat", async (req, res) => {
   try {
     const { prompt } = req.body;
@@ -54,78 +51,69 @@ app.post("/chat", async (req, res) => {
         pageContent: `
 Name: Suraj Chawhan
 Email: surajchauhan442918@gmail.com
-Phone: 7840900295
+Phone: +91-7840900295
 LinkedIn: https://www.linkedin.com/in/suraj-chawhan
-GitHub: https://www.github.com/Suraj-chawhan
-        `.trim(),
-      }),
-      new Document({
-        pageContent: `
-Summary:
-Aspiring web and mobile developer focused on building user-centric applications using modern tools like React, Next.js, and Firebase. Strong interest in full-stack development and scalable UI/UX design.
+GitHub: https://github.com/suraj-chawhan
         `.trim(),
       }),
       new Document({
         pageContent: `
 Skills:
-Languages: JavaScript, TypeScript, Python
-Frameworks and Libraries: React, Next.js, Tailwind CSS, Node.js, Express
-Databases: Firebase, MongoDB
-Tools: Git, GitHub, Postman, VS Code
-Concepts: REST APIs, Authentication, Responsive Design, Cloud Functions
+Languages: JavaScript, C, C++, C#
+Frameworks & Libraries: React.js, Next.js, Express.js, Node.js, React Native Expo
+Tools & Technologies: Git, GitHub, Unity Game Engine, Blender
+Database & Cloud: Firebase, MongoDB
         `.trim(),
       }),
       new Document({
         pageContent: `
 Experience:
-Role: Frontend Developer
-Company: Soven (Internship)
-Duration: 2 months
-Details:
-- Built reusable UI components using React and Tailwind CSS
-- Integrated frontend with backend APIs
-- Worked in a team to deliver responsive and accessible features
-- Collaborated in agile sprint cycles
+Soven Developer (2 months)
+- Gained hands-on experience in web development.
         `.trim(),
       }),
       new Document({
         pageContent: `
 Projects:
-Spotify Clone:
-Tech Stack: Next.js, Tailwind CSS, Supabase, PostgreSQL
-Description:
-- Built authentication flow with Supabase for login, registration, and role-based access
-- Designed and implemented a custom audio player
-- GitHub: [your repo link]
 
-File Sharing App:
-Tech Stack: Firebase, React, Node.js
-Description:
-- Secure file uploads/downloads with Firebase Storage
-- User auth and history tracking
-- GitHub: [your repo link]
+Spotify Clone
+Tech: Next.js, Firebase
+- Auth with Firebase (email/password, Google, Facebook)
+- Custom audio player (play/pause/skip/volume)
+- Responsive design with CSS frameworks
+GitHub: https://github.com/Suraj-chawhan/Spotify-clone
 
-AI Chatbot with LLM:
-Tech Stack: LangChain, Hugging Face, MemoryVectorStore
-Description:
-- Embedded text file into memory vector store
-- Used LLM with document retrieval for chat
-- GitHub: [your repo link]
+App Downloading Site
+Tech: Next.js, Firebase
+- Secure file uploads using Firebase Storage
+- File access via secure URLs
+- Search functionality
+GitHub: https://github.com/Suraj-chawhan/app-download-webapp
+
+Fitness Application
+Tech: React Native Expo
+- Simple fitness app with integrated calendar and charts
+GitHub: https://github.com/Suraj-chawhan/React-Native-Fitness-app
+
+AI Chatbot Web App
+Tech: Next.js
+- Unified interface for communicating with multiple LLMs
+GitHub: https://github.com/Suraj-chawhan/Aichatbot
         `.trim(),
       }),
       new Document({
         pageContent: `
 Education:
 Bachelor of Engineering in Computer Science
-University: Sant Gadge Baba Amravati University (SGBAU)
+Sant Gadge Baba Amravati University, Amravati
 Expected Graduation: 2026
-Relevant Coursework: Data Structures, Operating Systems, Computer Networks, DBMS
+Coursework: OOP, Data Structures & Algorithms, Databases, Discrete Mathematics, Operating Systems, Computer Networks
         `.trim(),
       }),
     ];
 
     const model = new ChatGroq({
-      model: "llama-3.3-70b-versatile", // ✅ Use correct Groq model
+      model: "llama3-70b-8192", // ✅ Correct model name
       apiKey: GROQ_API_KEY,
     });
 
@@ -148,7 +136,7 @@ Question:
       prompt,
     });
 
-    res.json({ output: answer || "No answer generated" });
+    res.json({ output: answer?.text || "No answer generated" });
   } catch (err) {
     console.error("❌ API Error:", err);
     res.status(500).send("Internal Server Error");
@@ -158,4 +146,4 @@ Question:
 app.listen(4000, () => {
   console.log("🚀 Server running at http://localhost:4000");
 });
-      
+
