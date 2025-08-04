@@ -39,7 +39,22 @@ app.post("/send", async (req, res) => {
   }
 });
 
+app.post("/temp",async(req,res)=>{
+  try{
+    const {question}=req.body;
+    
+const model = new ChatGroq({
+      model: "llama3-70b-8192", // ✅ Correct model name
+      apiKey: GROQ_API_KEY,
+    });
 
+  response=model.invoke(question)
+    res.send(response)
+  }
+  catch(error){
+res.send("Internal server errro")
+  }
+})
 
 app.post("/chat", async (req, res) => {
   try {
