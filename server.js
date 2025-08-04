@@ -50,7 +50,7 @@ app.post("/temp", async (req, res) => {
     });
 
     const response = await model.invoke(question); // ✅ Await is necessary
-    res.send(content); // ✅ Works fine (or use res.json for objects)
+    res.send(response.content); // ✅ Works fine (or use res.json for objects)
   } catch (error) {
     res.send("Internal server error"); // ✅ Optional: log error too
   }
