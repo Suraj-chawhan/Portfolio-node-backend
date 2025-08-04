@@ -48,7 +48,7 @@ const model = new ChatGroq({
       apiKey: GROQ_API_KEY,
     });
 
-  response=model.invoke(question)
+  response=await model.invoke(question)
     res.send(response)
   }
   catch(error){
