@@ -40,6 +40,24 @@ app.post("/send", async (req, res) => {
 });
 
 
+app.post("/temp", async (req, res) => {
+  try {
+    const { question } = req.body;
+
+    const model = new ChatGroq({
+      model: "llama3-70b-8192", // ✅ Correct model name
+      apiKey: GROQ_API_KEY,     // ✅ Make sure it's defined before this
+    });
+
+    const response = await model.invoke(question); // ✅ Await is necessary
+    res.json(response); // ✅ Works fine (or use res.json for objects)
+  } catch (error) {
+    res.send("Internal server error"); // ✅ Optional: log error too
+  }
+});
+
+
+
 app.post("/chat", async (req, res) => {
   try {
     const { prompt } = req.body;
