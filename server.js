@@ -60,7 +60,7 @@ app.post("/temp", async (req, res) => {
 
 app.post("/chat", async (req, res) => {
   try {
-    const { prompt } = req.body;
+    const { question } = req.body;
     if (!prompt) return res.status(400).send("Missing prompt");
 
     const baseDocs = [
